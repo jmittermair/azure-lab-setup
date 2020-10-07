@@ -52,7 +52,7 @@ function Initialize-O365TestUsers {
         do {
             try {
                 if(-not $Count) { $Count = 250 }
-                $users = Invoke-RestMethod -Method Get -Uri "https://randomuser.me/api/1.3/?results=$($Count)&nat=AU" -ErrorAction SilentlyContinue
+                $users = Invoke-RestMethod -Method Get -Uri "https://randomuser.me/api/1.3/?results=$($Count)&nat=$($CountryCode)" -ErrorAction SilentlyContinue
             }
             catch {
                 Write-Information -MessageData "Failed to invoke API resource correctly, trying again in 3 seconds.."
