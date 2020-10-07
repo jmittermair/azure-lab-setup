@@ -80,7 +80,10 @@ function Initialize-O365TestUsers {
             $LicensesToAssign = New-Object -TypeName Microsoft.Open.AzureAD.Model.AssignedLicenses
             $LicensesToAssign.AddLicenses = $License
 
-            New-AzureADUser -UserPrincipalName "$($user.name.first).$($user.name.last)@$($DomainSuffix)" -City $user.location.City -DisplayName "$($user.name.first) $($user.name.last)" -GivenName $user.name.first -Surname $user.name.last -Country $user.location.country -State $user.location.State -JobTitle $Title -Department $Department -UsageLocation $CountryCode -PasswordProfile $PasswordProfile -PostalCode $user.location.postcode -ShowInAddressList:$True -AccountEnabled:$True -MailNickName "$($user.name.first).$($user.name.last)"
+            New-AzureADUser -UserPrincipalName "$($user.name.first).$($user.name.last)@$($DomainSuffix)" -City $user.location.City `
+             -DisplayName "$($user.name.first) $($user.name.last)" -GivenName $user.name.first -Surname $user.name.last -Country $user.location.country `
+             -State $user.location.State -JobTitle $Title -Department $Department -UsageLocation $CountryCode -PasswordProfile $PasswordProfile `
+             -PostalCode $user.location.postcode -ShowInAddressList:$True -AccountEnabled:$True -MailNickName "$($user.name.first).$($user.name.last)"
             Set-AzureADUserLicense -ObjectId "$($user.name.first).$($user.name.last)@$($DomainSuffix)" -AssignedLicenses $LicensesToAssign
 
             $UserDetails = [PSCustomObject]@{
