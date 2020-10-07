@@ -114,7 +114,11 @@ function Initialize-O365TestUsers {
 }
 
 Start-Transcript -Path "O365UserCreds.txt"
-$Region = (Invoke-RestMethod -Method Get -Uri "https://restcountries.eu/rest/v2/all") | Select-Object Name, @{n="CountryCode";e={$_.alpha2Code}} | ` Out-GridView -Title "Select the country you want to create all the accounts in" -OutputMode Single
+
+$APISupportedCountries = "AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IR, NO, NL, NZ, TR, US".Replace(" ","").Split(",")
+
+$Region = (Invoke-RestMethod -Method Get -Uri "https://restcountries.eu/rest/v2/all") | Where-Object {$_.alpha2Code -in $APISupportedCountries} | `
+Select-Object Name, @{n="CountryCode";e={$_.alpha2Code}} | ` Out-GridView -Title "Select the country you want to create all the accounts in" -OutputMode Single
 $Count = Read-Host -Prompt "How many users do you want to create? (max. 250 for EMSPREMIUM license)."
 Initialize-O365TestUsers -Count $Count -CountryCode $Region.CountryCode
 Stop-Transcript
